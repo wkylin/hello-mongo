@@ -1,0 +1,21 @@
+type User @db(name: "user") {
+  id: ID! @id
+  email: String @unique
+  name: String!
+  posts: [Post!]! @relation(link: INLINE)
+}
+
+type Post @db(name: "post") {
+  id: ID! @id
+  wasCreated: DateTime! @createdAt
+  wasUpdated: DateTime! @updatedAt
+  title: String!
+  published: Boolean @default(value: false)
+  author: User
+  comments: [Comment!]!
+}
+
+type Comment @embedded {
+  text: String!
+  writtenBy: User!
+}
